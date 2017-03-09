@@ -15,7 +15,7 @@ for (var i = 0; i < imgs.length; i++) {
       return function(data) {
         rating = data.imdbRating;
         if (rating && rating != 'N/A') {
-          var imgURL = chrome.extension.getURL('img/star.png'),
+          var imgURL = chrome.extension.getURL('img/icon48.png'),
             imdbIMG = chrome.extension.getURL('img/imdb.png'),
             imdbURL = 'http://www.imdb.com/title/' + data.imdbID,
 
