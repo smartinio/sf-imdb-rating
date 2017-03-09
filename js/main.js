@@ -23,20 +23,20 @@ for (var i = 0; i < imgs.length; i++) {
 		title = translated[title];
 	
 	$.ajax({
-		url: 'http://www.omdbapi.com/?t=' + title, 
+		url: "http://www.omdbapi.com/?t=" + title, 
 		success:
 		(function(container) {
 			return function(data) {
 				rating = data.imdbRating;
-				if (rating && rating != 'N/A') {
-					var imgURL = chrome.extension.getURL('img/star.png'),
-						imdbIMG = chrome.extension.getURL('img/imdb.png'),
-						imdbURL = 'http://www.imdb.com/title/' + data.imdbID,
+				if (rating && rating != "N/A") {
+					var imgURL = chrome.extension.getURL("img/star.png"),
+						imdbIMG = chrome.extension.getURL("img/imdb.png"),
+						imdbURL = "http://www.imdb.com/title/"+data.imdbID,
 
-						dblink = '<a target="_blank" class="imex-imdb" href="'+ imdbURL +'">"' +
-								'<img class="imex-img" src="'+ imdbIMG +'" /></a>',
-						star = '<img class="imex-star" src="'+ imgURL +'" />',
-						span = '<span class="imex-bg">'+ rating +'</span>';
+						dblink = "<a target='_blank' class='imex-imdb' href='"+imdbURL+"'>" +
+								"<img class='imex-img' src='"+imdbIMG+"' /></a>",
+						star = "<img class='imex-star' src='"+imgURL+"' />",
+						span = "<span class='imex-bg'>"+ rating +"</span>";
 					
 					container.append(star + span + dblink);
 				}
