@@ -1,0 +1,22 @@
+var translated = {
+  "Alla tiders kvinnor": "20th Century Women",
+  "Badrinath Ki Dulhania - Bollywood": "Badrinath Ki Dulhania",
+  "Den lyckligaste dagen i Olli Mäkis liv": "the happiest day in the life of olli mäki",
+  "Den okända flickan": "the unknown girl",
+  "Dolda tillgångar": "hidden figures",
+  "En väldig vänskap": "Virgin mountain",
+  "Fantastiska vidunder och var man hittar dem": "Fantastic Beasts and Where to Find Them",
+  "Fyren mellan haven": "The light between oceans",
+  "Hur man får en miljonär": "How to marry a millionaire",
+  "Jag, Daniel Blake": "I, Daniel Blake",
+  "Kong - Skull Island": "Kong: Skull Island",
+  "Logan - The Wolverine": "Logan",
+  "McCabe and Mrs Miller": "McCabe & Mrs. Miller",
+  "Min pappa Toni Erdmann": "Toni Erdmann",
+  "Nattportieren - Klassiker": "The night porter",
+  "Prövningen": "Graduation",
+  "Skönheten och odjuret": "Beauty+and+the+Beast&y=2017",
+  "Systrar bakom galler": "Prison sisters",
+  "Vaiana": "Moana",
+  "xXx: The Return of Xander Cage": "xXx: Return of Xander Cage"
+}
