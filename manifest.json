@@ -6,17 +6,16 @@
 	"version":  "1.0000000",
 
 	"web_accessible_resources" : ["img/*"],
+
 	"background": {
 		"scripts":["js/bg.js"]
 	},
 
-	 "content_scripts": [
-    {
+	 "content_scripts": [{
       "matches": ["http://www.sf.se/*"],
       "css": ["css/style.css"],
-      "js": ["js/jquery.js", "js/main.js"]
-    }
-  ],
+      "js": ["js/translations.js", "js/jquery.js", "js/main.js"]
+    }],
 
 	"browser_action": {
 		"default_icon" : {"48": "img/icon48.png"}
