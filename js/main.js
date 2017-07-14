@@ -31,8 +31,8 @@ const starImage = chrome.extension.getURL('img/icon48.png'),
       },
 
       parseSearch = (response, container, longTitle, hasRating) => {
-        const result = getDocument(response).getElementsByClassName('result_text')[0],
-              title = '';
+        const result = getDocument(response).getElementsByClassName('result_text')[0];
+        let title = '';
 
         if (result) {
           title = result.firstElementChild.href.split('/')[4];
@@ -40,7 +40,7 @@ const starImage = chrome.extension.getURL('img/icon48.png'),
         }
 
         else
-          if (!hasRating) $(container).append(formattedElement('N/A', title));
+          if (!hasRating) $(container).append(formattedElement('N/A', longTitle));
       },
 
       scan = () => {
