@@ -1,32 +1,57 @@
-var imgs = $('.posterTrigger');
-var test = $('.concept-splash');
+const starImage = chrome.extension.getURL('img/icon48.png'),
 
-for (var i = 0; i < imgs.length; i++) {
-  var rating,
-    title = $(imgs[i]).find('img')[0].alt;
+      getCache = () => {
+        const cache = localStorage.getItem('ratings');
+        return cache ? JSON.parse(cache) : [];
+      },
 
-  if (title in translated)
-    title = translated[title];
-  
-  $.ajax({
-    url: 'http://www.omdbapi.com/?t=' + title, 
-    success:
-    (function(container) {
-      return function(data) {
-        rating = data.imdbRating;
-        if (rating && rating != 'N/A') {
-          var imgURL = chrome.extension.getURL('img/icon48.png'),
-            imdbIMG = chrome.extension.getURL('img/imdb.png'),
-            imdbURL = 'http://www.imdb.com/title/' + data.imdbID,
+      setCache = data => {
+        localStorage.setItem('ratings', JSON.stringify(data));
+      },
+    
+      getDocument = response => {
+        return new DOMParser().parseFromString(response, 'text/html');
+      },
 
-            star = '<img class="imex-star" src="'+ imgURL +'" />',
-            span = '<span class="imex-bg">'+ rating +'</span>';
-            dblink = '<a target="_blank" class="imex-imdb" href="'+ imdbURL +'">' +
-                '<img class="imex-img" src="'+ imdbIMG +'" /></a>',
-          
-          container.append(star + span + dblink);
+      formattedElement = rating => {
+        let str = `<p><img style="margin-top:-3px;vertical-align:middle;width:1em;height:1em" src="${starImage}"/>`;
+            str += `<span style="color:white">&nbsp;${rating}</span></p>`;
+        return $(str);
+      },
+
+      parsePage = (response, container, title) => {
+        const rating = getDocument(response).getElementsByClassName('ratingValue')[0].children[0].innerText,
+              cacheEntry = {title, rating, date: new Date()},
+              cache = getCache();
+
+        cache.push(cacheEntry);
+        setCache(cache);
+        $(container).append(formattedElement(rating));
+      },
+
+      parseSearch = (response, container) => {
+        const result = getDocument(response).getElementsByClassName('result_text')[0],
+              title = result.firstElementChild.href.split('/')[4],
+              cached = getCache().find(r => r.title === title);
+
+        if (cached) $(container).append(formattedElement(cached.rating));
+        else chrome.runtime.sendMessage({ title, type: 'page' }, response => parsePage(response, container, title));
+      },
+
+      scan = () => {
+        const containers = $('.ncgShowTitle').toArray().concat($('.ncgMovieTitle').toArray());
+
+        for (let container of containers) {
+          const title = container.innerText;
+          chrome.runtime.sendMessage({ title, type: 'search' }, response => parseSearch(response, container));
         }
-      }
-    })($(imgs[i]))
-  });
-}
+      },
+
+      isNew = date => {
+        const diff = new Date().getTime() - new Date(date).getTime(),
+              limit = 1000 * 3600;
+        return Math.abs(diff) < limit;
+      };
+
+setCache(getCache().filter(r => isNew(r.date)));
+document.addEventListener('aurelia-composed', function() { setTimeout(scan, 2000) }, true);
