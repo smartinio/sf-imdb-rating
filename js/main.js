@@ -19,6 +19,8 @@ const starImage = chrome.extension.getURL('img/icon48.png'),
         return $(str);
       },
 
+      isNumeric = n => !isNaN(parseFloat(n)) && isFinite(n),
+
       parsePage = (response, container, title, imdbTitle) => {
         const rateBox = getDocument(response).getElementsByClassName('ratingValue')[0],
               rating = rateBox ? rateBox.children[0].innerText : 'N/A',
@@ -31,7 +33,25 @@ const starImage = chrome.extension.getURL('img/icon48.png'),
       },
 
       parseSearch = (response, container, longTitle, hasRating) => {
-        const result = getDocument(response).getElementsByClassName('result_text')[0];
+        const results = getDocument(response).getElementsByClassName('result_text'),
+              currentYear = new Date().getFullYear(),
+              years = [currentYear, currentYear+1, currentYear-1];
+
+        let result = false;
+        for (let year of years) {
+
+          let filteredResults = [];
+          for (key in results) {
+            if (!isNumeric(key)) continue;
+            if (results[key].innerText.includes(`(${year})`))
+              filteredResults.push(results[key]);
+          }
+          if (filteredResults.length > 0) {
+            result = filteredResults[0];
+            break;
+          }
+        }
+
         let title = '';
 
         if (result) {
