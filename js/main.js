@@ -38,17 +38,15 @@ const starImage = chrome.extension.getURL('img/icon48.png'),
               years = [currentYear, currentYear+1, currentYear-1];
 
         let result = false;
-        for (let year of years) {
 
-          let filteredResults = [];
+        outer:
+        for (let year of years) {
           for (key in results) {
             if (!isNumeric(key)) continue;
-            if (results[key].innerText.includes(`(${year})`))
-              filteredResults.push(results[key]);
-          }
-          if (filteredResults.length > 0) {
-            result = filteredResults[0];
-            break;
+            if (results[key].innerText.includes(`(${year})`)) {
+              result = results[key];
+              break outer;
+            }
           }
         }
 
