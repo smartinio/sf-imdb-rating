@@ -13,8 +13,8 @@
 
 	 "content_scripts": [{
       "matches": ["https://www.sf.se/*"],
-      "css": ["css/style.css"],
-      "js": ["js/translations.js", "js/jquery.js", "js/main.js"]
+      "css": ["css/style.css", "css/animate.css"],
+      "js": ["js/jquery.js", "js/main.js"]
     }],
 
 	"browser_action": {
