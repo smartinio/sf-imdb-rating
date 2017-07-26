@@ -83,9 +83,7 @@ const starImage = chrome.extension.getURL('img/icon48.png'),
             continue;
           }
 
-          else {
-            chrome.runtime.sendMessage({ title, type: 'search' }, response => parseSearch(response, container, title, hasRating));
-          }
+          chrome.runtime.sendMessage({ title, type: 'search' }, response => parseSearch(response, container, title, hasRating));
         }
       },
 
