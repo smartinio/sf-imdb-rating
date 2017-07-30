@@ -3,14 +3,12 @@ const getCache = () => {
         return cache ? JSON.parse(cache) : [];
       },
 
-      setCache = data => {
+      setCache = (data) => {
         localStorage.setItem('ratings', JSON.stringify(data));
       },
       
       /* Generates a local copy of the DOM from IMDB. */
-      getDocument = response => {
-        return new DOMParser().parseFromString(response, 'text/html');
-      },
+      getDocument = response => new DOMParser().parseFromString(response, 'text/html'),
 
       /* Creates a rating component for SF.se. */
       formattedElement = (rating) => {
@@ -60,28 +58,31 @@ const getCache = () => {
             { title, type: 'page' },
             response => parsePage(response, container, longTitle)
           );
+
+          return;
         }
 
-        else {
-          if (!hasRating) $(container).append(formattedElement('N/A'));
+        if (!hasRating) {
+          $(container).append(formattedElement('N/A'));
         }
       },
 
       /* Finds the movie listings and starts the score-retrieving process. */
       scan = () => {
         const containers = $('.ncgShowTitle').toArray().concat($('.ncgMovieTitle').toArray()),
-              clearDebris = (container) => {
+              cleanTitle = (container) => {
                 return container.innerText.replace(/(\r\n|\n|\r)/gm, '').slice(0,-4)
               }
 
         for (let container of containers) {
           const hasRating = $(container).is(':has(p.imdbRating)'),
-                title = hasRating ? clearDebris(container) : container.innerText,
+                title = hasRating ? cleanTitle(container) : container.innerText,
                 cached = getCache().find(r => r.title === title);
 
           if (cached) {
-            if (!hasRating)
+            if (!hasRating) {
               $(container).append(formattedElement(cached.rating));
+            }      
             continue;
           }
 
@@ -100,7 +101,7 @@ const getCache = () => {
       };
 
 /*  Clear old cache entries. */
-setCache(getCache().filter(entry => isLessThanOneDayOld(entry)));
+setCache(getCache().filter(isLessThanOneDayOld));
 
 /*  Temporary solution to wait for aurelia to finish loading.  */
 $(document).ready(() => { setTimeout(scan, 2000) } );
