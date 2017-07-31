@@ -117,6 +117,7 @@ const getCache = () => {
       );
     }
   },
+  
   /**
    * Determines if a Date is less than 24 hours old.
    * @param  {Date} date
@@ -129,7 +130,7 @@ const getCache = () => {
   };
 
 /*  Clear old cache entries. */
-setCache(getCache().filter(({date}) => isLessThanOneDayOld(date)));
+setCache(getCache().filter(({ date }) => isLessThanOneDayOld(date)));
 
 /*  Temporary solution to wait for aurelia to finish loading.  */
 $(document).ready(() => { setTimeout(scan, 2000) });
